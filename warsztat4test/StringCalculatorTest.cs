@@ -18,6 +18,7 @@ namespace warsztat4test
         [TestCase(6, "1\n2,3")]
         [TestCase(6, "//;\n1;2;3")]
         [TestCase(6, "//[*][%]\n1*2%3")]
+        [TestCase(6, "//[***]\n1***2***3")]
         [TestCase(2, "//;\n1001;2")]
         public void ShouldReturnSum(int testResult, string numbers)
         {

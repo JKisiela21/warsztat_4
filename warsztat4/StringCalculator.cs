@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace warsztat4
 {
@@ -11,7 +12,8 @@ namespace warsztat4
             var negativeNumbers = new List<int>();
             try
             {
-                string defaultDelimiter = ",";
+                List<string> defaultDelimiter = new List<string>() ;
+                defaultDelimiter.Add("\n");
                 var sum = 0;
 
                 if (String.IsNullOrEmpty(numbers))
@@ -22,18 +24,21 @@ namespace warsztat4
                 if (numbers.StartsWith("//["))
                 {
                     var index = numbers.IndexOf('\n');
-                    defaultDelimiter = numbers.Substring(2, index - 2);
-                    var test = defaultDelimiter.Split('[', ']');
+                    var delimiters = numbers.Substring(2, index - 2).Split('[', ']'); 
+                    defaultDelimiter.AddRange(delimiters.Where(x => x != ""));
                     numbers = numbers.Substring(index + 1);
                 }
                 else if (numbers.StartsWith("//"))
                 {
                     var index = numbers.IndexOf('\n');
-                    defaultDelimiter = numbers.Substring(2, index-2);
+                    defaultDelimiter.Add(numbers.Substring(2, index-2));
                     numbers = numbers.Substring(index+1);
+                }else
+                {
+                    defaultDelimiter.Add(",");
                 }
 
-                string[] numString = numbers.Split(new string[] { defaultDelimiter, "\n" }, StringSplitOptions.None);
+                string[] numString = numbers.Split(defaultDelimiter.ToArray(), StringSplitOptions.None);
 
                 foreach (var str in numString)
                 {
